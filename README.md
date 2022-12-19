@@ -181,7 +181,9 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 
 ...
 {
+
     test: /\.s?css$/i,
+
     use: [
         mode === 'production'
         ? MiniCssExtractPlugin.loader
@@ -255,6 +257,7 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 
     "last 2 version",
     "> 0.2%",
+
     "not dead"
 ]
 
