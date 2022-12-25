@@ -58,7 +58,7 @@ ___
 ## 6. Install Webpack
 > npm install webpack webpack-cli webpack-dev-server --save-dev
 
-   - webpack - allws to configure app
+   - webpack - allows to configure app
    - webpack-cli - command line
    - webpack-dev-server - server which helps live reload the broser page on changes
 
@@ -161,7 +161,7 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 
 10. Add some styles to the project, as well as have the ability to display images on the webpage.
 
-> npm install style-loader css-loader sass sass-loader less less-loader image-webpack-loader mini-css-extract-plugin --save-dev 
+> npm install style-loader css-loader sass sass-loader less less-loader  mini-css-extract-plugin --save-dev 
 
 - style-loader: will add styles to the DOM (injects a style tag inside the HTML file) and lets us improve styles bundling in dev mode.
 - css-loader: lets us import CSS files in our project.
@@ -169,7 +169,6 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 - sass-loader: lets us import SCSS files in our project.
 - less: compiles LESS files into normal CSS
 - less-loader: lets us to import LESS files in out project.
-- image-webpack-loader: lets us load images in our project.
 - mini-css-extract-plugin: helps in production mode to extract styles into separete files
 
 ---
@@ -177,19 +176,43 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 
 ## Setup (style, less, sass) loaders:
 
-??? TODO: DEFINE module settings from webpack official site(for multiple loaders)
 
 ...
-{
-    test: /\.s?css$/i,
-    use: [
-        mode === 'production'
-        ? MiniCssExtractPlugin.loader
-        : 'style-loader',
-        'css-loader',
-        'sass-loader'
-    ],
-},
+    {
+
+        test: /\.s?css$/i,
+        use: [
+            argv.mode === 'production' ?
+            MiniCssExtractPlugin.loader :
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+        ],
+
+    },
+    {
+
+        test: /\.less$/i,
+        use: [
+            argv.mode === 'production' ?
+            MiniCssExtractPlugin.loader : 
+            'style-loader',
+            {
+                loader: 'css-loader',
+                options: {
+                    url: true,
+                    sourceMap: true,
+                }
+            },
+            {
+                loader: 'less-loader',
+                options: {
+                    sourceMap: true,
+                }
+            }
+        ],
+
+    },
 ...
 
 
@@ -203,29 +226,13 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 {
     
     "presets": [
-        "@babel/env",
-        "@babel/react"
+        "@babel/react",
+        "@babel/preset-env"
     ]
 }
 
-
----
-<br>
-
-12. Additional plugins:
-
-    - file-loader - for import all sorts of files as images, fonts and etc...
-     or asset
-    - @babel/preset-env - it helps work with Object Oriented Programming and add crossbrowser polifils for correct render
-
-## Add to .babelrc
-
-"plugins":[
-        "@babel/preset-env"
-]
-
-
-> npm install asset--save-dev
+Additional plugins:
+   - @babel/preset-env - it helps work with Object Oriented Programming and add crossbrowser polifils for correct render
 
 > npm install --save-dev @babel/preset-env
 
@@ -261,13 +268,104 @@ This is where Babel comes to our aid. Babel will tell Webpack how to compile our
 ---
 <br>
 
-13. Add fonts loaders in webpack.config.js
+12. Add fonts and image loaders with webpack 5 asset loaders
 
-??? TODO: Solve issue with font loadings
+    {
+
+        test: /\.(png|svg|jpg|jpeg|gif)\$/i,
+        type: 'asset/resource',
+
+    },
+    {
+
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+            filename: 'fonts/[name][ext][query]'
+        }
+
+    }
 
 ---
 <br>
 
+13. Add App.jsx and index.js files with react starter content
+
+
+`index.js`
+
+    import React from "react";
+
+    import ReactDOM from "react-dom";
+
+    import App from "./App.js";
+
+    import "./scss/main.scss";
+
+    import "./less/main.less";
+
+    const root = ReactDOM.createRoot(
+        document.getElementById("root")
+    );
+
+    root.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
+
+`App.jsx`
+
+
+
 14. **Additianal way of webpack configure with extended file structure 
 
 > https://stackoverflow.com/questions/55678211/using-mini-css-extract-plugin-and-style-loader-together 
+
+
+
+# Typescript 
+
+15. Install React for typescript
+
+
+>npm install typescript
+
+>npm install @types/react @types/react-dom --save-dev
+
+> npm install @babel/preset-typescript --save-dev
+
+## And add @babel/preset-typescript preset in .babelrc
+
+{
+
+    "presets": [
+        "@babel/react",
+        "@babel/preset-env",
+        "@babel/preset-typescript"
+    ]  
+}
+
+16. Install ts-loader
+
+> npm install -D ts-loader
+
+## Update webpack.config.js with setting below:
+
+{
+    test: /\.(ts|tsx)$/,
+    exclude: /node_modules/,
+    use: ["ts-loader"],
+},
+
+## Add resolve extensions for import without extensions
+resolve: 
+
+{
+            
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+},
+
+17. Update tsconfig.json with the tutor on https://dev.to/deadwing7x/setup-a-react-app-using-webpack-babel-and-typescript-5927 
+
+18. Change extensions for main files `App.tsx` and `index.ts`

@@ -7,11 +7,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = (env, argv) => {
     console.log(env, argv, process.env.APP_PORT);
     return {
-        entry: path.join(__dirname, "src", "index.js"),
+        entry: path.join(__dirname, "src", "index.tsx"),
         output: { path: path.join(__dirname, argv.mode == "production" ? "build" : "dist"), filename: "index.bundle.js" },
         mode: process.env.NODE_ENV || "development",
         resolve: { modules: [path.resolve(__dirname, "src"), "node_modules"] },
         devServer: { static: path.join(__dirname, "src") },
+        resolve: {
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+        },
         module: {
             rules: [{
                     test: /\.(js|jsx)$/,
@@ -19,6 +22,11 @@ module.exports = (env, argv) => {
                     use: {
                         loader: "babel-loader"
                     }
+                },
+                {
+                    test: /\.(ts|tsx)$/,
+                    exclude: /node_modules/,
+                    use: ["ts-loader"],
                 },
                 {
                     test: /\.s?css$/i,
