@@ -317,12 +317,15 @@ Additional plugins:
 `App.jsx`
 
 
+---
+<br/>
 
 14. **Additianal way of webpack configure with extended file structure 
 
 > https://stackoverflow.com/questions/55678211/using-mini-css-extract-plugin-and-style-loader-together 
 
-
+---
+<br/>
 
 # Typescript 
 
@@ -346,6 +349,9 @@ Additional plugins:
     ]  
 }
 
+---
+<br/>
+
 16. Install ts-loader
 
 > npm install -D ts-loader
@@ -366,6 +372,33 @@ resolve:
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
 },
 
+---
+<br/>
+
 17. Update tsconfig.json with the tutor on https://dev.to/deadwing7x/setup-a-react-app-using-webpack-babel-and-typescript-5927 
 
+---
+<br/>
+
+
 18. Change extensions for main files `App.tsx` and `index.ts`
+
+---
+<br/>
+
+19. Fix react-router url matching with webpack dev server by updating webpack.config.js with next strokes
+
+`devServer:{
+...
+historyApiFallback: true,
+...
+}
+`
+
+`output:{
+...
+publicPath: '/'
+...
+}`
+
+

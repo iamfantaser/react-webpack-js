@@ -1,15 +1,12 @@
 import React from "react";
-import Pannel from "./components/panel/Panel";
-import SiderPanel from "./components/siderPanel/SiderPanel";
+import { RouterProvider } from "react-router-dom";
+import { routes } from "./routes/main";
 
 const App: React.FC<{}> = () => {
+
     return (
-        <>
-            <SiderPanel>
-                <Pannel/>
-            </SiderPanel>
-        </>
-    );
+        <RouterProvider router={routes}/>    
+    ) 
 }
 
 export default App;

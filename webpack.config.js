@@ -8,10 +8,10 @@ module.exports = (env, argv) => {
     console.log(env, argv, process.env.APP_PORT);
     return {
         entry: path.join(__dirname, "src", "index.tsx"),
-        output: { path: path.join(__dirname, argv.mode == "production" ? "build" : "dist"), filename: "index.bundle.js" },
+        output: { publicPath: '/', path: path.join(__dirname, argv.mode == "production" ? "build" : "dist"), filename: "index.bundle.js" },
         mode: process.env.NODE_ENV || "development",
         resolve: { modules: [path.resolve(__dirname, "src"), "node_modules"] },
-        devServer: { static: path.join(__dirname, "src") },
+        devServer: { static: path.join(__dirname, "src"), historyApiFallback: true },
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
         },

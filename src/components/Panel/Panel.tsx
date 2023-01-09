@@ -5,7 +5,7 @@ const Panel: React.FC<{}> = (props) => {
     return (
         <>
             <Layout.Content>
-                <Row  gutter={[8,8]} >
+                <Row gutter={[8,8]} >
                     <Col span={8}>
                     <Layout.Content>
                             <Row gutter={[0, 8]}>
